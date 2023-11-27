@@ -28,6 +28,16 @@ class HiveDatasource implements IDataSource {
   }
 
   @override
+  Future<void> add(Todo todo) async {
+    await init;
+    Box<HiveTodo> box = Hive.box<HiveTodo>('todos');
+    HiveTodo hiveTodo = HiveTodo(
+        name: todo.name,
+        description: todo.description,);
+    box.add(hiveTodo);
+  }
+
+  @override
   Future<void> edit(Todo todo) async {
     await init;
     HiveTodo? hiveTodo = Hive.box<HiveTodo>('todos').get(int.parse(todo.id));
@@ -37,16 +47,6 @@ class HiveDatasource implements IDataSource {
       hiveTodo.complete = todo.complete;
       hiveTodo.save();
     }
-  }
-
-  @override
-  Future<void> add(Todo todo) async {
-    await init;
-    Box<HiveTodo> box = Hive.box<HiveTodo>('todos');
-    HiveTodo hiveTodo = HiveTodo(
-        name: todo.name,
-        description: todo.description,);
-    box.add(hiveTodo);
   }
 
   @override

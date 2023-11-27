@@ -34,9 +34,9 @@ class HiveToDoAdaptor extends TypeAdapter<HiveTodo> {
   @override
   HiveTodo read(BinaryReader reader) {
     return HiveTodo(
-      name: reader.read(0),
-      description: reader.read(1),
-      complete: reader.read(2),
+      name: reader.read(),
+      description: reader.read(),
+      complete: reader.read(),
     );
   }
 

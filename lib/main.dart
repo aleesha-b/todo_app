@@ -107,20 +107,45 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ElevatedButton(onPressed: () {
-              setState(() {
-                Provider.of<TodoList>(context, listen: false).add(
-                  Todo(
-                    name: _controllerName.text, 
-                    description: _controllerDescription.text));
-              });
-              Navigator.pop(context);
-              _controllerDescription.clear();
-              _controllerName.clear();
-            },
-            child: const Text('Save')),
-          )
+  padding: const EdgeInsets.all(8.0),
+  child: ElevatedButton(
+    onPressed: () {
+      if (_controllerName.text.isNotEmpty) {
+        setState(() {
+          Provider.of<TodoList>(context, listen: false).add(
+            Todo(
+              name: _controllerName.text, 
+              description: _controllerDescription.text,
+            ),
+          );
+        });
+        Navigator.pop(context);
+        _controllerDescription.clear();
+        _controllerName.clear();
+      } else {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text('Error'),
+              content: const Text('Please enter a name.'),
+              actions: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      }
+    },
+    child: const Text('Save'),
+  ),
+)
+
         ],
       )
       );
